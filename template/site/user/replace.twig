@@ -1,0 +1,57 @@
+{% extends 'base.twig' %}
+
+{% block container %}
+
+    <h1>{% if user.id and user.id > 0 %}Редактирование клиента{% else %}Добавление клиента{% endif %}</h1>
+
+    <div id="insert_result" class="alert hidden"></div>
+
+    {% if errors %}
+        <div class="alert alert-danger">
+            <ul>
+                {% for error in errors %}<li>{{ error }}</li>{% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    {% if messengs %}
+        <div class="alert alert-success">
+            <ul>
+                {% for messeng in messengs %}<li>{{ messeng }}</li>{% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+
+    <form name="user" id="user" action="/user/replace/{{ user.id }}/" method="POST" onsubmit="return sendForm();">
+        <input type="hidden" name="id" value="{{ user.id }}">
+        <div class="form-group">
+            <label for="fio">ФИО: </label>
+            <input class="form-control" type="text" name="fio" id="fio" value="{{ user.fio }}" /><br />
+        </div>
+        <div class="form-group">
+            <label>Пол: </label>
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-primary {% if user.sex and user.sex == 'm' %}active{% endif %}">
+                    <input type="radio" class="input" {% if user.sex and user.sex == 'm' %}checked{% endif %} name="sex" id="male" value="m" /> мужской
+                </label>
+                <label class="btn btn-primary {% if user.sex and user.sex == 'f' %}active{% endif %}">
+                    <input type="radio" name="sex" {% if user.sex and user.sex == 'f' %}checked{% endif %} id="female" value="f" /> женский
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="email">Email: </label>
+            <input class="form-control" {% if user.id %}disabled{% endif %} type="text" name="email" id="email" value="{{ user.email }}" />
+        </div>
+        <div class="form-group">
+            <label for="adress">Адрес: </label><br />
+            <textarea rows="8" class="form-control" name="adress" id="adress">{{ user.adress }}</textarea>
+        </div>
+        <div class="text-right">
+            <input type="submit" class="btn btn-lg btn-primary" value="Записать" />
+        </div>
+        <div class="clearfix"></div>
+    </form>
+
+{% endblock %}

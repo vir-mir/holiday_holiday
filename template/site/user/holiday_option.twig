@@ -1,0 +1,5 @@
+{% if holidays %}
+    {% for holiday in holidays %}
+        <option value="{{ holiday.id }}">{{ holiday.name }}</option>
+    {% endfor %}
+{% endif %}

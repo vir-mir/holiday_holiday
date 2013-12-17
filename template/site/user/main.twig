@@ -1,0 +1,68 @@
+{% extends 'base.twig' %}
+
+{% block container %}
+    <h1>Клиенты!</h1>
+
+    <div class="well">
+        <div class="row">
+            <div class="col-md-5">
+                <label class="col-xs-12">
+                    Поздравили с праздником:<br />
+                    <select id="congratulated" class="form-control filters">
+                        <option value="0">....</option>
+                        {% include 'user/holiday_option.twig' %}
+                    </select>
+                </label>
+            </div>
+            <div class="col-md-2">
+                <strong>Условие отбора</strong><br />
+                <div class="btn-group col-xs-12" data-toggle="buttons">
+                    <label class="btn btn-primary active">
+                        <input class="filters" type="radio" name="if" checked value="||" /> или
+                    </label>
+                    <label class="btn btn-primary">
+                        <input class="filters" type="radio" name="if" value="&&" /> &nbsp;&nbsp;и&nbsp;&nbsp;
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <label class="col-xs-12">
+                    Не поздравили с праздником:<br />
+                    <select id="not_congratulated" class="form-control filters">
+                        <option value="0">....</option>
+                        {% include 'user/holiday_option.twig' %}
+                    </select>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    {% if users %}
+        <table id="table_users" class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Код</th>
+                    <th>ФИО</th>
+                    <th>E-mail</th>
+                    <th>Пол</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.fio }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{% if user.sex=='m' %}Мур.{% else %}Жен.{% endif %}</td>
+                        <td>
+                            <a href="/user/replace/{{ user.id }}/" title="Редактировать">
+                                <i class="glyphicon glyphicon-edit"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}
